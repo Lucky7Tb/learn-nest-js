@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model friends {
+  id                                  Int   @id @default(autoincrement()) @db.UnsignedInt
+  user_id                             Int   @db.UnsignedInt
+  user_friend_id                      Int   @db.UnsignedInt
+  users_friends_user_friend_idTousers users @relation("friends_user_friend_idTousers", fields: [user_friend_id], references: [id], onDelete: Cascade, map: "FK2_FRIENDS_TO_USERS")
+  users_friends_user_idTousers        users @relation("friends_user_idTousers", fields: [user_id], references: [id], onDelete: Cascade, map: "FK_FRIENDS_TO_USERS")
+
+  @@index([user_friend_id], map: "FK2_FRIENDS_TO_USERS")
+  @@index([user_id], map: "FK_FRIENDS_TO_USERS")
+}
+
+model songs {
+  id                  Int       @id @default(autoincrement()) @db.UnsignedInt
+  user_id             Int       @db.UnsignedInt
+  song_name           String?   @db.VarChar(100)
+  song_url            String?   @db.VarChar(255)
+  song_is_recommended Boolean?
+  created_at          DateTime? @default(now()) @db.DateTime(0)
+  updated_at          DateTime? @default(now()) @db.DateTime(0)
+  users               users     @relation(fields: [user_id], references: [id], onDelete: Cascade, map: "FK_SONG_TO_USERS")
+
+  @@index([user_id], map: "user_id")
+}
+
+model users {
+  id                                    Int       @id @default(autoincrement()) @db.UnsignedInt
+  username                              String    @unique(map: "username") @db.VarChar(80)
+  password                              String    @db.VarChar(255)
+  photo_profile                         String?   @db.VarChar(80)
+  unique_id                             String    @db.VarChar(8)
+  token                                 String?   @db.Text
+  created_at                            DateTime? @default(now()) @db.DateTime(0)
+  updated_at                            DateTime? @default(now()) @db.DateTime(0)
+  friends_friends_user_friend_idTousers friends[] @relation("friends_user_friend_idTousers")
+  friends_friends_user_idTousers        friends[] @relation("friends_user_idTousers")
+  songs                                 songs[]
+
+  @@index([unique_id], map: "unique_id")
+}
