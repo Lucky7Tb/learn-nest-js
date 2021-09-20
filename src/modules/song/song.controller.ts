@@ -1,34 +1,74 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Query, Headers, UseGuards, ParseIntPipe, NotFoundException } from '@nestjs/common';
 import { SongService } from './song.service';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
+import { AuthenticatedGuard } from 'src/guard/auth/authenticated.guard';
 
+@UseGuards(AuthenticatedGuard)
 @Controller('song')
 export class SongController {
   constructor(private readonly songService: SongService) {}
 
   @Post()
-  create(@Body() createSongDto: CreateSongDto) {
-    return this.songService.create(createSongDto);
+  async create(
+    @Body() songData: CreateSongDto,
+    @Headers('x-auth-token') authToken: string
+  ) {
+    const newSongData = await this.songService.create(songData, authToken);
+
+    return {
+      data: newSongData,
+      message: 'Berhasil menambah lagu'
+    };
   }
 
   @Get()
-  findAll() {
-    return this.songService.findAll();
+  async findAll(
+    @Headers('x-auth-token') authToken: string,
+    @Query('search') search: string
+  ) {    
+    const songData = await this.songService.findAll(search, authToken);
+
+    return {
+      data: songData,
+      message: 'Berhasil mengambil lagu'
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.songService.findOne(+id);
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ) {    
+    const songData = await this.songService.findOne(id);
+
+    if(songData) {
+      return {
+        data: songData,
+        message: 'Berhasil mengambil data'
+      }
+    }
+
+    throw new NotFoundException('Error! data tidak ada');
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSongDto: UpdateSongDto) {
-    return this.songService.update(+id, updateSongDto);
+  @Put(':id')
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateSongDto: UpdateSongDto
+  ) {
+    const songUpdatedData = await this.songService.update(id, updateSongDto)
+    return {
+      data: songUpdatedData,
+      message: 'Berhasil mengubah lagu'
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.songService.remove(+id);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const deletedSong = await this.songService.remove(id);
+    return {
+      data: deletedSong,
+      message: 'Berhasil menghapus lagu'
+    };
   }
 }

@@ -1,26 +1,95 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 
 @Injectable()
 export class SongService {
-  create(createSongDto: CreateSongDto) {
-    return 'This action adds a new song';
+  constructor(
+    private readonly prismaService: PrismaService
+  ) {}
+
+  async create(
+    createSongDto: CreateSongDto,
+    authToken: string
+  ) {
+    const [ user ] = await this.prismaService.users.findMany({
+      select: {
+        id: true
+      },
+      where: {
+        token: authToken
+      }
+    });
+
+    return await this.prismaService.songs.create({
+      data: {
+        ...createSongDto,
+        users: {
+          connect: {
+            id: user.id
+          }
+        }
+      }
+    })
   }
 
-  findAll() {
-    return `This action returns all song`;
+  findAll(
+    search: string,
+    authToken: string
+  ) {
+    return this.prismaService.songs.findMany({
+      select: {
+        id: true,
+        song_name: true,
+        song_url: true,
+        song_is_recommended: true
+      },
+      where: {
+        song_name: {
+          contains: search
+        },
+        users: {
+          token: authToken
+        }
+      },
+      orderBy: {
+        id: 'desc'
+      }
+    });
   }
-
+  
   findOne(id: number) {
-    return `This action returns a #${id} song`;
+    return this.prismaService.songs.findUnique({
+      select: {
+        id: true,
+        song_name: true,
+        song_url: true,
+        song_is_recommended: true
+      },
+      where: {
+        id: id
+      },
+    });
   }
 
-  update(id: number, updateSongDto: UpdateSongDto) {
-    return `This action updates a #${id} song`;
+  async update(id: number, updateSongDto: UpdateSongDto) {
+    return await this.prismaService.songs.update({
+      data: {
+        ...updateSongDto,
+        updated_at: new Date()
+      },
+      where: {
+        id
+      }
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} song`;
+  async remove(id: number) {
+    return await this.prismaService.songs.delete({
+      where: {
+        id
+      }
+    })
   }
 }
