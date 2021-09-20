@@ -23,10 +23,10 @@ export class ResponseInterceptor<T>
   ): Observable<Response<T>> {
     return next.handle().pipe(
       map((response) => {
-        const res = context.switchToHttp().getResponse();
-        res.status(response.statusCode);
+        // const res = context.switchToHttp().getResponse();
+        // res.status(response.statusCode);
         return {
-          statusCode: response.statusCode,
+          statusCode: response?.statusCode || context.switchToHttp().getResponse().statusCode,
           data: response?.data || response,
           message: response?.message,
         };
