@@ -51,7 +51,7 @@ export class AuthService {
 	}
 
 	async register(registerData: RegisterDTO) {
-		const uniqueId = "#" + randomString(7);
+		const uniqueId = randomString(8);
 		registerData.password = await hash(registerData.password, 10);
 
 		if (registerData.photo_profile === null) {
@@ -69,7 +69,7 @@ export class AuthService {
 	}
 
 	async logout(tokenAuth: string) {
-		const data = await this.prisma.users.updateMany({
+		const data = await this.prisma.users.update({
 			data: {
 				token: null,
 				updated_at: new Date()

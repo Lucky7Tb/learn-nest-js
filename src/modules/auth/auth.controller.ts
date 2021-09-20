@@ -69,7 +69,6 @@ export class AuthController {
 		const registerUserData = await this.authService.register(registerData);
 
 		return {
-			statusCode: 201,
 			data: registerUserData,
 			message: 'Berhasil registrasi'
 		};
