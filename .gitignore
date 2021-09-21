@@ -37,3 +37,6 @@ lerna-debug.log*
 # Uploaded Image
 /public/images/*.png
 !/public/images/avatar.png
+
+#Env file
+.env
