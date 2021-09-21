@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsAlphanumeric } from 'class-validator';
 
 export class RegisterDTO {
+  
   @IsNotEmpty()
   @IsAlphanumeric()
   username: string;

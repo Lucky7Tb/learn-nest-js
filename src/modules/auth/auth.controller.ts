@@ -18,27 +18,12 @@ import { AuthService } from './auth.service';
 import { LoginDTO } from './dto/login.dto';
 import { RegisterDTO } from './dto/register.dto';
 
-import {
-	ApiBearerAuth,
-	ApiOperation,
-	ApiResponse,
-	ApiTags,
-	ApiBody,
-	ApiProperty,
-	ApiOkResponse
-} from '@nestjs/swagger';
-
-@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
 	constructor(
 		private readonly authService: AuthService
 	) {}
 
-	@ApiOperation({
-		summary: 'Login to App',
-		description: 'Require to get a token.'
-	})
 	@UseGuards(GuestGuard)
 	@Post('login')
 	async login(
