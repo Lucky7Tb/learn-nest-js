@@ -1,0 +1,480 @@
+{
+	"info": {
+		"_postman_id": "501bbb03-8aa9-4cc5-a9b9-051da9a7bfd0",
+		"name": "ChevaSong",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"username\": \"Lucky7Tb\",\r\n\t\"password\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"username\": \"Lucky7Tb\",\r\n\t\"password\": \"123456789\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:4000/auth/login",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8a-zZJFfXrB5k+QUgJUPBIF9OK5WWc\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Sep 2021 12:14:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"statusCode\": 200,\n    \"data\": {\n        \"id\": 1,\n        \"token\": \"pHOZ5mXaxt4Ilp8IDSXjM\",\n        \"username\": \"Lucky7Tb\",\n        \"unique_id\": \"#kpwzJ-K\"\n    },\n    \"message\": \"Berhasil login\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "person2",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456789",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:4000/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-AUTH-TOKEN",
+								"value": "{{Token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/logout",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Song",
+			"item": [
+				{
+					"name": "Create Song",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-AUTH-TOKEN",
+								"value": "PL6fzVTy1IinTiWuiVgeA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"song_name\": \"Song 2 - recommended\",\r\n\t\"song_url\": \"https://www.youtube.com/watch?v=DP89-sZL1YM\",\r\n\t\"song_is_recommended\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:4000/song",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"song"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllSong",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/song",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"song"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "Armer",
+									"description": "Searching song by name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Song",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"song_name\": \"Joma lofi song\",\r\n\t\"song_url\": \"https://www.youtube.com/watch?v=bmVKaAV_7-A\",\r\n\t\"song_is_recommended\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/song/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"song",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Song",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/song/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"song",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetSong",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/song/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"song",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "key",
+						"value": "X-AUTH-TOKEN",
+						"type": "string"
+					},
+					{
+						"key": "value",
+						"value": "{{Token}}",
+						"type": "string"
+					},
+					{
+						"key": "in",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Friend",
+			"item": [
+				{
+					"name": "GetAllFriend",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/friend",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"friend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddFriend",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"friend_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/friend",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"friend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SearchFriend",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/friend/search?unique_id=13ZLgOta",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"friend",
+								"search"
+							],
+							"query": [
+								{
+									"key": "unique_id",
+									"value": "13ZLgOta",
+									"description": "required"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFriendRecommendedSong",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/friend/:id/song",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"friend",
+								":id",
+								"song"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "key",
+						"value": "X-AUTH-TOKEN",
+						"type": "string"
+					},
+					{
+						"key": "value",
+						"value": "{{Token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
