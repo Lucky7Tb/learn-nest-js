@@ -30,12 +30,16 @@ CREATE TABLE `users` (
     `password` VARCHAR(255) NOT NULL,
     `photo_profile` VARCHAR(80),
     `unique_id` VARCHAR(8) NOT NULL,
-    `token` TEXT,
+    `token` VARCHAR(255),
     `created_at` DATETIME(0) DEFAULT CURRENT_TIMESTAMP(0),
     `updated_at` DATETIME(0) DEFAULT CURRENT_TIMESTAMP(0),
 
     UNIQUE INDEX `username`(`username`),
-    INDEX `unique_id`(`unique_id`),
+    UNIQUE INDEX `unique_id`(`unique_id`),
+    UNIQUE INDEX `token`(`token`),
+    INDEX `token_2`(`token`),
+    INDEX `unique_id_2`(`unique_id`),
+    INDEX `username_2`(`username`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

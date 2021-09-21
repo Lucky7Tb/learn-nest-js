@@ -8,16 +8,14 @@ datasource db {
 }
 
 model friends {
-  id              Int   @id @default(autoincrement()) @db.UnsignedInt
-  
-  user            users @relation("friend_user_id_to_user", fields: [user_id], references: [id], onDelete: Cascade, map: "FK_FRIENDS_TO_USERS")
-  user_id         Int   @db.UnsignedInt
-  
-  user_friend   users @relation("friend_user_id_friend_to_user", fields: [user_friend_id], references: [id], onDelete: Cascade, map: "FK2_FRIENDS_TO_USERS")
-  user_friend_id  Int   @db.UnsignedInt
+  id             Int   @id @default(autoincrement()) @db.UnsignedInt
+  user_id        Int   @db.UnsignedInt
+  user_friend_id Int   @db.UnsignedInt
+  user_friend    users @relation("friend_user_id_friend_to_user", fields: [user_friend_id], references: [id], onDelete: Cascade, map: "FK2_FRIENDS_TO_USERS")
+  user           users @relation("friend_user_id_to_user", fields: [user_id], references: [id], onDelete: Cascade, map: "FK_FRIENDS_TO_USERS")
 
-  @@index([user_id], map: "FK_FRIENDS_TO_USERS")
   @@index([user_friend_id], map: "FK2_FRIENDS_TO_USERS")
+  @@index([user_id], map: "FK_FRIENDS_TO_USERS")
 }
 
 model songs {
@@ -42,8 +40,8 @@ model users {
   token         String?   @unique(map: "token") @db.VarChar(255)
   created_at    DateTime? @default(now()) @db.DateTime(0)
   updated_at    DateTime? @default(now()) @db.DateTime(0)
-  user          friends[] @relation("friend_user_id_to_user")
   user_friend   friends[] @relation("friend_user_id_friend_to_user")
+  user          friends[] @relation("friend_user_id_to_user")
   songs         songs[]
 
   @@index([token], map: "token_2")
