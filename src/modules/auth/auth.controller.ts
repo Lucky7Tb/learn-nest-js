@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { ignoreElements } from 'rxjs';
 import { AuthenticatedGuard } from 'src/guard/auth/authenticated.guard';
 import { GuestGuard } from 'src/guard/guest/guest.guard';
 import { UploadFileHelper } from 'src/helpers/upload-file.helper';
@@ -19,12 +18,27 @@ import { AuthService } from './auth.service';
 import { LoginDTO } from './dto/login.dto';
 import { RegisterDTO } from './dto/register.dto';
 
+import {
+	ApiBearerAuth,
+	ApiOperation,
+	ApiResponse,
+	ApiTags,
+	ApiBody,
+	ApiProperty,
+	ApiOkResponse
+} from '@nestjs/swagger';
+
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
 	constructor(
 		private readonly authService: AuthService
 	) {}
 
+	@ApiOperation({
+		summary: 'Login to App',
+		description: 'Require to get a token.'
+	})
 	@UseGuards(GuestGuard)
 	@Post('login')
 	async login(

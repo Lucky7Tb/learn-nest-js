@@ -3,6 +3,15 @@ import { AuthenticatedGuard } from "src/guard/auth/authenticated.guard";
 import { AddFriendDTO } from './dto/add-friend.dto';
 import { FriendService } from './friend.service';
 
+import {
+	ApiBearerAuth,
+	ApiOperation,
+	ApiResponse,
+	ApiTags,
+	ApiBody
+} from '@nestjs/swagger';
+
+@ApiTags('Friend')
 @Controller('friend')
 export class FriendController {
 	

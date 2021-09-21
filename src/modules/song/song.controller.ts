@@ -4,6 +4,15 @@ import { CreateSongDto } from './dto/create-song.dto';
 import { UpdateSongDto } from './dto/update-song.dto';
 import { AuthenticatedGuard } from 'src/guard/auth/authenticated.guard';
 
+import {
+	ApiBearerAuth,
+	ApiOperation,
+	ApiResponse,
+	ApiTags,
+	ApiBody
+} from '@nestjs/swagger';
+
+@ApiTags('Song')
 @UseGuards(AuthenticatedGuard)
 @Controller('song')
 export class SongController {
